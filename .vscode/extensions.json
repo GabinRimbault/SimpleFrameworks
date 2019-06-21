@@ -1,0 +1,31 @@
+{
+  "recommendations": [
+    "aaron-bond.better-comments",
+    "formulahendry.auto-close-tag",
+    "steoates.autoimport",
+    "nucllear.vscode-extension-auto-import",
+    "formulahendry.auto-rename-tag",
+    "hookyqr.beautify",
+    "trongthanh.theme-boxythemekit",
+    "coenraads.bracket-pair-colorizer",
+    "peterjausovec.vscode-docker",
+    "joelday.docthis",
+    "dbaeumer.vscode-eslint",
+    "tombonnike.vscode-status-bar-format-toggle",
+    "ms-ceintl.vscode-language-pack-fr",
+    "xabikos.javascriptsnippets",
+    "pkief.material-icon-theme",
+    "eg2.vscode-npm-script",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "jakob101.relativepath",
+    "robinbentley.sass-indented",
+    "richie5um2.vscode-sort-json",
+    "chenxsan.vscode-standardjs",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "dskwrk.vscode-generate-getter-setter",
+    "octref.vetur",
+    "dariofuzinato.vue-peek",
+    "mubaidr.vuejs-extension-pack"
+  ]
+}
