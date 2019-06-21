@@ -6,6 +6,14 @@ import { options } from "../config/config"
 
 clear()
 
-new Server(dev, options)
+
+import { Plugins } from './../core/libs/class/Plugins';
+
+new Plugins()
 .init()
+
+
+
+/* new Server(dev, options)
+.init() */
 
