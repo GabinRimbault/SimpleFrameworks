@@ -1,5 +1,5 @@
 # Accueil 👋
-# Branch Develop
+# Branch Features
 
 Bienvenue dans le guide utilisateur de SimpleFrameworks for NodeJS : le framworks simple d'utilisation pour les API avec NodeJS
 
