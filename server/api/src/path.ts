@@ -1,13 +1,13 @@
 module.exports = [
     {
         "method": "get",
-        "path": "auth/register",
+        "path": "perso/register",
         "protected": true,
         "controller": "AuthController.Register"      
     },
     {
         "method": "get",
-        "path": "auth/confirm",
+        "path": "perso/confirm",
         "protected": false,
         "controller": "AuthController.Confirm"      
     }

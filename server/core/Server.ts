@@ -3,12 +3,13 @@ const clear = require('clear')
 const figlet = require('figlet')
 
 import { DB_FACTORY } from './libs/db/DB_FACTORY';
-import { Router } from './Routes/Router';
-
+import { Router } from './Router';
+import { Plugins } from './../core/libs/class/Plugins';
 
 //------------- Require for logs
 import { serverError } from './../config/error/server.error';
 import { Logs } from './libs/class/Logs';
+import { options } from './../config/config';
 
 export class Server{
     
@@ -119,7 +120,7 @@ export class Server{
             console.log('Version: ', chalk.green(this.options.version))
             console.log('----------------');
 
-            new Router(this.env, this.expressServer, this.DB)
+            new Router(this.env, this.expressServer, this.DB, Plugins.init(options.activePlugins))
             .init()
         })
     }
