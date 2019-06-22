@@ -10,6 +10,9 @@ import { Plugins } from './../core/libs/class/Plugins';
 import { serverError } from './../config/error/server.error';
 import { Logs } from './libs/class/Logs';
 import { options } from './../config/config';
+import { UserModel } from './../api/plugins/user/Model/UserModel';
+import { IOptions } from './libs/interface/IOptions';
+
 
 export class Server{
     
@@ -42,8 +45,7 @@ export class Server{
 
         //
         Logs.tryCatch(this.loadDB.bind(this), serverError.loadDB)
-        
-        //
+
         Logs.tryCatch(this.launchServer.bind(this), serverError.serverNotLaunch)        
     }
 

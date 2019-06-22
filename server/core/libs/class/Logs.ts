@@ -1,5 +1,4 @@
 const fs = require('fs')
-import { tryCatch } from './../../bin/func';
 
 export class Logs{
 

@@ -95,15 +95,35 @@ export class DB_MYSQL implements IDBFactory {
         
     }
 
-    simpleQuery(method: string, ip_user: string, table: string, req: string, name: string): any{
-        Logs.tryCatch(() => {}, {})
+    simpleQuery(req: string, options: object): any{
+        return new Promise((resolve, reject) =>{
+            Logs.tryCatch(() => {
+                this.checkTable(options.table)
+                .then(() => this.objMysql.query(req, (err: any, res: any) => err ? reject(err.sqlMessage) : resolve(res)))
+                .catch((err: any) => reject(err))
+            }, {})
+        })
     }
 
-    complexQuery(method: string, ip_user: string, req: string, name: string): any{
-        Logs.tryCatch(() => {}, {})
+    complexQuery(req: string, options: object): any{
+        return new Promise((resolve, reject) =>{
+            Logs.tryCatch(() => {
+                this.checkTable(options.table)
+                .then(() => this.objMysql.query(req, (err: any, res: any) => err ? reject(err.sqlMessage) : resolve(res)))
+                .catch((err: any) => reject(err))
+            }, {})
+        })
     }
 
     checkTable(table: string): any{
-        Logs.tryCatch(() => {}, {})
+        return new Promise((resolve, reject) => {
+            Logs.tryCatch(() => {
+                this.objMysql.query(`show tables from ${this.database} like '${table}'`, (err: any, rows: number) => {
+                    if(err) reject(err.sqlMessage)
+                    else if(rows.length >= 1) resolve(true)
+                    else reject('bad table')
+                })
+            }, {})
+        })
     }
 }
