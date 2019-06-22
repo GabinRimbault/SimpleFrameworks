@@ -1,29 +1,13 @@
-#NAME : Class Plugins
+#BUILD : 
 #AUTHOR : Gabin Rimbault
 #DATE : 22/06/2019
-#BRANCH : F-Plugins-01
+#BRANCH : Development
 
 #################################### LAST VERSION ####################################
 
 -------------------------------------------------------------------------------------
 
 # Général :
-
-    -> Class plugins: 
-        Ajout de la class plugins qui va permettre de gérer les plugins facilement.  
-        
-        -> Pour ajouter un plugins :
-            a) Créer un dossier dans le dossier server/api/plugins
-            b) Celui-ci doit contenir les dossiers et fichier nécessaire
-            c) Ajouter votre fichier path.ts et celui-ci est automatiquement pris en compte
-            grace à la class plugins qui se charge de mettre en forme les chemins d'accès.
-            
-            La Class en elle-même, vérifie que les plugins soient activés ou non, et récupére
-            l'ensemble des fichiers, trie les chemins et les ajoute à la variable this.PLUGINS
-            Enfin elle ajoute le defaultRouter        
-            
-            Pour instancier les plugins il faut utiliser la méthode (Plugins.init(options activePlugins))
-            qui est une méthode static à laquelle on passe en option le boolean activePlugins
 
 -------------------------------------------------------------------------------------
 

@@ -119,7 +119,7 @@ export class Server{
             console.log('Access Server: http://localhost:', chalk.green(this.options.port))
             console.log('Version: ', chalk.green(this.options.version))
             console.log('----------------');
-
+            
             new Router(this.env, this.expressServer, this.DB, Plugins.init(options.activePlugins))
             .init()
         })
