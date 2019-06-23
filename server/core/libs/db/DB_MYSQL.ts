@@ -109,7 +109,9 @@ export class DB_MYSQL implements IDBFactory {
         return new Promise((resolve, reject) =>{
             Logs.tryCatch(() => {
                 this.checkTable(options.table)
-                .then(() => this.objMysql.query(req, (err: any, res: any) => err ? reject(err.sqlMessage) : resolve(res)))
+                .then(() => {
+                    this.objMysql.query(req, (err: any, res: any) => err ? reject(err.sqlMessage) : resolve(res))
+                })
                 .catch((err: any) => reject(err))
             }, {})
         })
@@ -119,6 +121,10 @@ export class DB_MYSQL implements IDBFactory {
         return new Promise((resolve, reject) => {
             Logs.tryCatch(() => {
                 this.objMysql.query(`show tables from ${this.database} like '${table}'`, (err: any, rows: number) => {
+
+
+                    
+
                     if(err) reject(err.sqlMessage)
                     else if(rows.length >= 1) resolve(true)
                     else reject('bad table')

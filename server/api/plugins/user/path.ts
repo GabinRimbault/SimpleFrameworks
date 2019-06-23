@@ -1,14 +1,19 @@
+
+import { UserController } from './Controller/UserController';
+const User = new UserController()
+
+
 module.exports = [
     {
-        "method": "post",
-        "path": "user/add",
-        "protected": true,
-        "controller": "UserController.Add"      
+        "method": "get",
+        "path": "user",
+        "protected": false,
+        "controller":   User.findAllUserController
     },
     {
         "method": "post",
         "path": "user/del/:id",
         "protected": true,
-        "controller": "UserController.Del"      
+        "controller": (() => {})
     },
 ]

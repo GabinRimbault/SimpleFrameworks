@@ -2,7 +2,7 @@ const chalk = require('chalk')
 const clear = require('clear')
 const figlet = require('figlet')
 
-import { DB_FACTORY } from './libs/db/DB_FACTORY';
+
 import { Router } from './Router';
 import { Plugins } from './../core/libs/class/Plugins';
 
@@ -10,9 +10,6 @@ import { Plugins } from './../core/libs/class/Plugins';
 import { serverError } from './../config/error/server.error';
 import { Logs } from './libs/class/Logs';
 import { options } from './../config/config';
-import { UserModel } from './../api/plugins/user/Model/UserModel';
-import { IOptions } from './libs/interface/IOptions';
-
 
 export class Server{
     
@@ -21,12 +18,10 @@ export class Server{
     http: any
     expressServer: any
     server: any
-    DB: any
 
     constructor(env: any, options: any){
         this.env = env
         this.options = options
-        this.DB = DB_FACTORY.loadDB('MySQL')
     }
 
     public init(): void{
@@ -42,10 +37,8 @@ export class Server{
         this.env.mode === 'Prod' ? 
         Logs.tryCatch(this.loadDepProd.bind(this), serverError.loadDep) : 
         Logs.tryCatch(this.loadDepDev.bind(this), serverError.loadDep)
-
+        
         //
-        Logs.tryCatch(this.loadDB.bind(this), serverError.loadDB)
-
         Logs.tryCatch(this.launchServer.bind(this), serverError.serverNotLaunch)        
     }
 
@@ -58,7 +51,7 @@ export class Server{
         process.env.SF_ENV_LOGS = this.env.logLevel
     }
 
-    private loadDepProd(): void{
+    private loadDepPorod(): void{
         //Load Server
         const express = require('express')
         const bodyParser = require('body-parser')
@@ -100,13 +93,6 @@ export class Server{
         console.log(chalk.green('----------------'))
     }
 
-    private loadDB(): void{
-        //le MySQL devra être lu depuis le fichier config
-        //Init DB
-        this.DB.init()
-        this.DB.isConnected()
-    }
-
     private launchServer(): void{
         //Launch Server
         console.log(chalk.green('Launch Server...'))
@@ -122,7 +108,7 @@ export class Server{
             console.log('Version: ', chalk.green(this.options.version))
             console.log('----------------');
             
-            new Router(this.env, this.expressServer, this.DB, Plugins.init(options.activePlugins))
+            new Router(this.env, this.expressServer, Plugins.init(options.activePlugins))
             .init()
         })
     }

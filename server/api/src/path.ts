@@ -3,12 +3,12 @@ module.exports = [
         "method": "get",
         "path": "perso/register",
         "protected": true,
-        "controller": "PersoController.Register"      
+        "controller": (() => {})       
     },
     {
         "method": "get",
         "path": "perso/confirm",
         "protected": false,
-        "controller": "PersoController.Confirm"      
+        "controller": (() => {})     
     }
 ]

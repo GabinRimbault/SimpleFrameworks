@@ -1,3 +1,3 @@
 export interface IDBObject {
-    simpleQuery: Function
+    simpleQuery ?: Function,
 }

@@ -6,9 +6,6 @@ import { options } from "../config/config"
 
 clear()
 
-
-import { MainModel } from './../core/models/MainModel';
-
 new Server(dev, options)
-.init()
+.init() 
  

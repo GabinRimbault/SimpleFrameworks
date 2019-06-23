@@ -2,14 +2,15 @@ const bcrypt = require('bcrypt')
 import { options } from './../../config/config';
 import { IDBObject } from '../libs/interface/IDBObject';
 import { IOptions } from '../libs/interface/IOptions';
-
+import { DB_FACTORY } from './../libs/db/DB_FACTORY';
+import { DB_MYSQL } from './../libs/db/DB_MYSQL';
 
 
 export class MainModel {
 
-    protected addMainModel(DB: IDBObject, options: IOptions,  paramsArray: any): Promise<Object>{
+    protected addMainModel(options: IOptions,  paramsArray: any): Promise<Object>{
         return new Promise((resolve, reject) => {
-            DB.simpleQuery(
+            this.DB.simpleQuery(
                 options, 
                 this.prepareDataforInsert(options, paramsArray)
             )
@@ -18,6 +19,7 @@ export class MainModel {
         })
     }
 
+    //
     private prepareDataforInsert(options: IOptions, paramsArray: any): any{
         let preFixData: string = "", 
         suFixData: string = "", 
@@ -36,22 +38,48 @@ export class MainModel {
         }
     }
 
-    protected findAllMainModel(DB: IDBObject, options: IOptions){
+    public findAllMainModel(options: IOptions){
         return new Promise((resolve, reject) => {
-            DB.simpleQuery(
+            const mysql = new DB_MYSQL()
+            mysql.init()
+            mysql.isConnected()
+
+            mysql.simpleQuery(
+                `SELECT ${options.field} 
+                FROM ${options.table}`,
+                options
+            )
+            .then((res: any) => {
+                if(Object.keys(res).length >= 1){
+                    console.log('RESPONSE DE MAINMODEL1 = ', res)
+                    resolve(res)
+                }else{
+                    console.log('RESPONSE DE MAINMODEL2 = ', res)
+                    resolve(res)
+                }
+                
+            })
+            .catch((err: any) => reject(err))
+        })
+
+
+        /*
+
+        simpleQuery(
                 `SELECT ${options.field} 
                 FROM ${options.table}`,
                 options
             )
             .then((res: any) => Object.keys(res).length >= 1 ? resolve(res) : resolve(res))
             .catch((err: any) => reject(err))
-        })
+
+            */
     } 
 
     //Fonction qui permet de rechercher une information
-    protected findMainModel(DB: IDBObject, options: IOptions){
+    protected findMainModel(options: IOptions){
         return new Promise((resolve, reject) => {  
-            DB.simpleQuery(
+            this.DB.simpleQuery(
                 `SELECT ${options.field} 
                 FROM ${options.table} 
                 WHERE ${options.search}='${options.content}'`, 
@@ -63,9 +91,9 @@ export class MainModel {
     }
 
     //
-    protected findMainModelWithJoin(DB: IDBObject, options: IOptions){
+    protected findMainModelWithJoin(options: IOptions){
         return new Promise((resolve, reject) => {
-            DB.simpleQuery(
+            this.DB.simpleQuery(
                 `SELECT ${options.field} 
                 FROM ${options.table} 
                 INNER JOIN ${options.tableJoin} 
@@ -78,9 +106,9 @@ export class MainModel {
         })
     }
 
-    protected findMainModelWithMultipleCondition(DB: IDBObject, options: IOptions, paramsArray: any){
+    protected findMainModelWithMultipleCondition(options: IOptions, paramsArray: any){
         return new Promise((resolve, reject) => {
-            DB.simpleQuery(
+            this.DB.simpleQuery(
                 this.prepareDataCondition(options, paramsArray), 
                 options
             )
@@ -109,10 +137,10 @@ export class MainModel {
     /*
         method, table, condition = false, search = 'id', content = '1', item = 'id'
     */
-    protected lastItemMainModel(DB: IDBObject, options: IOptions){
+    protected lastItemMainModel(options: IOptions){
         return new Promise((resolve, reject) => {
             if(options.condition){
-                DB.simpleQuery(
+                this.DB.simpleQuery(
                     `SELECT MAX(${options.item}) 
                     AS lastid FROM ${options.table} 
                     WHERE ${options.search}='${options.content}'`,
@@ -121,7 +149,7 @@ export class MainModel {
                 .then((res: any) => res[0].lastid === null ? resolve(res) : resolve(res))
                 .catch((err: any) => reject(err))
             }else{
-                DB.simpleQuery(
+                this.DB.simpleQuery(
                     `SELECT MAX(${options.item}) 
                     AS lastid FROM ${options.table} `,
                     options
@@ -133,9 +161,9 @@ export class MainModel {
     }
 
     //Fonction qui permet de compter un item
-    protected countItemModel(DB: IDBObject, options: IOptions){
+    protected countItemModel(options: IOptions){
         return new Promise((resolve, reject) => {
-            DB.simpleQuery(
+            this.DB.simpleQuery(
                 `SELECT COUNT(${options.item}) 
                 FROM ${options.table}`, 
                 options
@@ -146,9 +174,9 @@ export class MainModel {
     }
 
     //
-    protected countItemASCountModel(DB: IDBObject, options: IOptions){
+    protected countItemASCountModel(options: IOptions){
         return new Promise((resolve, reject) => {
-            DB.simpleQuery(
+            this.DB.simpleQuery(
                 `SELECT COUNT(*) AS count 
                 FROM ${options.table} 
                 WHERE ${options.item}='${options.content}'`,
@@ -160,12 +188,12 @@ export class MainModel {
     }
 
     //Function qui permet de mettre a jour une entrer 
-    protected updateMainModel(DB: IDBObject, options: IOptions, paramsArray: any){
+    protected updateMainModel(options: IOptions, paramsArray: any){
         return new Promise((resolve, reject) => {
             return new Promise((resolve, reject) => {
-                this.findMainModel(DB, options)
+                this.findMainModel(options)
                 .then(() => {
-                    DB.simpleQuery(
+                    this.DB.simpleQuery(
                         this.prepareDataUpdate(options, paramsArray), 
                         options
                     )
@@ -195,11 +223,11 @@ export class MainModel {
 //----------------------------------------------- Delete
     
     //Fonction qui permet de supprimer une entrer via sont id
-    protected deleteMainModel(DB: IDBObject, options: IOptions){
+    protected deleteMainModel(options: IOptions){
         return new Promise((resolve, reject) => {
-            this.findMainModel(DB, options)
+            this.findMainModel(options)
             .then(() => {
-                DB.simpleQuery(
+                this.DB.simpleQuery(
                     `DELETE FROM ${options.table} 
                     WHERE ${options.search}='${options.id}'`, 
                     options
@@ -231,9 +259,9 @@ export class MainModel {
     }
 
     //
-    protected executePersonnalRequest(DB: IDBObject, options: IOptions){
+    protected executePersonnalRequest(options: IOptions){
         return new Promise((resolve, reject) => {
-            DB.simpleQuery(
+            this.DB.simpleQuery(
                 options.requestSQL, 
                 options
             )

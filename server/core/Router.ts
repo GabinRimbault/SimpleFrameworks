@@ -6,13 +6,11 @@ export class Router {
 
     env: any
     server: any
-    DB: any
     path: Array<Object>
 
-    constructor(env: any, server: any, DB: any, path: Array<Object>){
+    constructor(env: any, server: any, path: Array<Object>){
         this.env = env
         this.server = server
-        this.DB = DB
         this.path = path
     }
 
@@ -66,12 +64,10 @@ export class Router {
         //If not protected
         if(!path.protected){
             console.log(chalk.green("GET") + " { " + path.path + " }")
-            this.server.get('/' + path.path, ((req, res) => {
-                console.log('Debugger ')
-              }))
+            this.server.get('/' + path.path, path.controller)
         }else{
             console.log(chalk.green("GET") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"))
-            this.server.get('/' + path.path, ((req, res) => {}))
+            this.server.get('/' + path.path, path.controller)
         }
     }
 
@@ -79,10 +75,10 @@ export class Router {
         //If not protected
         if(!path.protected){
             console.log(chalk.blue("POST") + " { " + path.path + " }")
-            this.server.post('/' + path.path, ((req, res) => {}))
+            this.server.post('/' + path.path, path.controller)
         }else{
             console.log(chalk.blue("POST") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"))
-            this.server.post('/' + path.path, ((req, res) => {}))
+            this.server.post('/' + path.path, path.controller)
         }
     }
 
@@ -90,10 +86,10 @@ export class Router {
         //If not protected
         if(!path.protected){
             console.log(chalk.yellow("PUT") + " { " + path.path + " }")
-            this.server.put('/' + path.path, ((req, res) => {}))
+            this.server.put('/' + path.path, path.controller)
         }else{
             console.log(chalk.yellow("PUT") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"))
-            this.server.put('/' + path.path, ((req, res) => {}))
+            this.server.put('/' + path.path, path.controller)
         }
     }
 
@@ -101,10 +97,10 @@ export class Router {
         //If not protected
         if(!path.protected){
             console.log(chalk.red("DEL") + " { " + path.path + " }")
-            this.server.delete('/' + path.path, ((req, res) => {}))
+            this.server.delete('/' + path.path, path.controller)
         }else{
             console.log(chalk.red("DEL") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"))
-            this.server.delete('/' + path.path, ((req, res) => {}))
+            this.server.delete('/' + path.path, path.controller)
 
         }
     }
@@ -113,10 +109,10 @@ export class Router {
         //If not protected
         if(!path.protected){
             console.log(chalk.green("PATCH") + " { " + path.path + " }")
-            this.server.post('/' + path.path, ((req, res) => {}))
+            this.server.post('/' + path.path, path.controller)
         }else{
             console.log(chalk.green("PATCH") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"))
-            this.server.patch('/' + path.path, ((req, res) => {}))
+            this.server.patch('/' + path.path, path.controller)
         }
     }
 }

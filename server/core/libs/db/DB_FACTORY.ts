@@ -7,7 +7,8 @@ export class DB_FACTORY {
         switch(env_db){
 
             case 'MySQL': 
-                return new DB_MYSQL()
+                const a = new DB_MYSQL()
+                return a
         
             case 'PostgreSQL': 
                 return new DB_PostgreSQL()

@@ -7,7 +7,7 @@
   "scripts": {
     "env:plugins": "ts-node-dev --respawn --transpileOnly --debug server/app/start_server.ts -plugins",
     "env:dev": "ts-node-dev --respawn --transpileOnly --debug server/app/start_server.ts -dev",
-    "env:prod": "node ./build/start_server.js",
+    "env:prod": "node build/app/start_server.js",
     "build": "tsc"
   },
   "repository": {
