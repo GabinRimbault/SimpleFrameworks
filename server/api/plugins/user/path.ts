@@ -8,12 +8,12 @@ module.exports = [
         "method": "get",
         "path": "user",
         "protected": false,
-        "controller":   User.findAllUserController
+        "controller": User.findAllUserController
     },
     {
         "method": "post",
-        "path": "user/del/:id",
-        "protected": true,
-        "controller": (() => {})
+        "path": "user",
+        "protected": false,
+        "controller": User.findAllUserController
     },
 ]

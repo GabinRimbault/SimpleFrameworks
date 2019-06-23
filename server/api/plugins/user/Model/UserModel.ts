@@ -1,17 +1,29 @@
 import { MainModel } from './../../../../core/models/MainModel';
-import { IDBObject } from '../../../../core/libs/interface/IDBObject';
 import { IOptions } from '../../../../core/libs/interface/IOptions';
 
 export class UserModel extends MainModel{
 
-    protected findAllUserModel(options: IOptions): any{
+
+
+    constructor(){
+        super();
+
+        
+
+    }
+
+
+    protected findAllUserModel(options: IOptions): Promise<any>{
         return new Promise((resolve, reject) => {
             super.findAllMainModel(options)
-            .then((res: any) => {
-                console.log('RESPONSE DE USERMODEL = ', res)
-                resolve(res)
+            .then((res: Response) => {
+                Object.keys(res).length >= 1 ? 
+                resolve(super.sendRequest(true, 200, Object.keys(res).length, res)) : 
+                resolve(super.sendRequest(true, 205, Object.keys(res).length, res))
             })
-            .catch((err: any) => reject(err))
+            .catch((err: Response) => reject(super.sendRequest(false, 400, 0, err)))
         })
     }
+
+    
 }

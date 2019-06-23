@@ -94,9 +94,6 @@ export class Server{
     }
 
     private launchServer(): void{
-        //Launch Server
-        console.log(chalk.green('Launch Server...'))
-
         //Start Server
         this.server = this.http.createServer(this.expressServer)
 

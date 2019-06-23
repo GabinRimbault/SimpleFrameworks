@@ -1,3 +1,5 @@
+import { IOptions } from "./IOptions";
+
 export interface IDBFactory {
     
     host: string
@@ -10,7 +12,7 @@ export interface IDBFactory {
     init(): any
     reloadDB(): any
     isConnected(): any
-    simpleQuery: (req: string, options: object): any
-    complexQuery(req: string, options: object): any
-    checkTable(table: string): any
+    simpleQuery: (req: string, options: IOptions) => Promise<any>
+    complexQuery(req: string, options: IOptions): Promise<any>
+    checkTable(table: string): Promise<any>
 }

@@ -4,11 +4,13 @@ export class MainController{
 
     //If succes function
     static response(req: Request, res: any, response: IResponseController): void{
-        res.status(response.code).json(
+        res.status(response.http).json(
             {
-                "result": response,
-                "code": response.code,
-                "response": response.response
+                "result": response.result,
+                "type": req.method,
+                "HTTP": response.http,
+                "nbResult": response.nbResult,
+                "Response": response.object
             }
         )
     } 

@@ -41,6 +41,7 @@ export class Logs{
     static tryCatch(func: any, options: object): boolean{
         try{
             func()
+            options.success ? console.log(options.success) : ""
             return true
         }catch(err){
             if(process.env.SF_ENV_LOGS === '2' || process.env.SF_ENV_LOGS === '4')
@@ -53,7 +54,20 @@ export class Logs{
         }
     }
 
+    static receiveError(error: any){
+        if(process.env.SF_ENV_LOGS === '2' || process.env.SF_ENV_LOGS === '4')
+            console.log(this.logLevel({ error: error }))
+        else
+            console.log(this.logLevel(error))   
+    }
+
+    static receiveSuccess(success: any){
+        if(process.env.SF_ENV_LOGS === '3' || process.env.SF_ENV_LOGS === '5')
+            console.log(this.logLevel(success))   
+    }
+
     private static logLevel(log: any): string{
+
         switch(parseInt(process.env.SF_ENV_LOGS)){
             case 1:
                 return ''

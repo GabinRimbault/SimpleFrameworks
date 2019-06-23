@@ -1,28 +1,24 @@
 import { UserModel } from './../Model/UserModel';
-import { DB_FACTORY } from '../../../../core/libs/db/DB_FACTORY';
 import { MainController } from './../../../../core/controllers/MainController';
+import { IResponseController } from '../../../../core/libs/interface/IResponseController';
+import { IOptions } from '../../../../core/libs/interface/IOptions';
+const ip = require('ip');
+
 
 export class UserController extends UserModel{
 
-    public findAllUserController(req: Request, res: any){
-        let options = {
+    public findAllUserController(req: Request, res: Response){
+        let options: IOptions = {
             "table": "sf_users",
-            "field": "*"
+            "field": "*",
+            "name": "findAllUser",
+            "method": req.method,
+            "ip": ip.address()
         }
 
         super.findAllUserModel(options)
-        .then((response: any) => {
-
-
-            console.log('Response de UserController = ', response)
-
-            MainController.response(req, res, response = {
-                "result": true,
-                "code": 200,
-                "response": response
-            })
-        })
-        .catch((error: any) => MainController.response(req, res, error))
+        .then((response: IResponseController) => MainController.response(req, res, response))
+        .catch((error: IResponseController) => MainController.response(req, res, error))
     }
 
 

@@ -6,6 +6,7 @@ import {fopen, fgets, eof, fclose} from "../../bin/func_files"
 
 import { Logs } from './../class/Logs';
 import { mysqlError } from "../../../config/error/mysql.error";
+import { IOptions } from "../interface/IOptions";
 
 export class DB_MYSQL implements IDBFactory {
 
@@ -25,7 +26,7 @@ export class DB_MYSQL implements IDBFactory {
         this.objMysql = null
     }
 
-    init(): void{
+    public init(): void{
         Logs.tryCatch(() => {
             //Search Files
             var r=fopen('server/config/db/configMySQL.conf',"r")
@@ -49,7 +50,7 @@ export class DB_MYSQL implements IDBFactory {
         }, mysqlError.initDB)
     }
 
-    reloadDB(): any{
+    public reloadDB(): any{
         Logs.tryCatch(() => {
             this.init()
 
@@ -95,37 +96,45 @@ export class DB_MYSQL implements IDBFactory {
         
     }
 
-    simpleQuery(req: string, options: object): any{
+    simpleQuery(req: string, options: IOptions): Promise<any>{
         return new Promise((resolve, reject) =>{
-            Logs.tryCatch(() => {
-                this.checkTable(options.table)
-                .then(() => this.objMysql.query(req, (err: any, res: any) => err ? reject(err.sqlMessage) : resolve(res)))
-                .catch((err: any) => reject(err))
-            }, {})
-        })
-    }
-
-    complexQuery(req: string, options: object): any{
-        return new Promise((resolve, reject) =>{
-            Logs.tryCatch(() => {
-                this.checkTable(options.table)
-                .then(() => {
-                    this.objMysql.query(req, (err: any, res: any) => err ? reject(err.sqlMessage) : resolve(res))
+            this.checkTable(options.table)
+            .then(() => {
+                this.objMysql.query(req, (err: any, res: any) => {
+                    if(err) Logs.receiveError(err.sqlMessage), reject(err.sqlMessage)
+                    else Logs.receiveSuccess(
+                        "[SUCCESS] - [" + options.method + "] : " + options.name +
+                        "\n=> " + req + " <=" +
+                        "\nby " + options.ip
+                    ), resolve(res)
                 })
-                .catch((err: any) => reject(err))
-            }, {})
+            })
+            .catch((err: any) => { Logs.receiveError(err), reject(err) })
         })
     }
 
-    checkTable(table: string): any{
+    complexQuery(req: string, options: IOptions): Promise<any>{
+        return new Promise((resolve, reject) =>{
+            this.checkTable(options.table)
+            .then(() => {
+                this.objMysql.query(req, (err: any, res: any) => {
+                    if(err) Logs.receiveError(err.sqlMessage), reject(err.sqlMessage)
+                    else Logs.receiveSuccess(
+                        "[SUCCESS] - [" + options.method + "] : " + options.name +
+                        "\n=> " + req + " <=" +
+                        "\nby " + options.ip
+                    ), resolve(res)
+                })
+            })
+            .catch((err: any) => reject(Logs.receiveError(err)))
+        })
+    }
+
+    checkTable(table: string): Promise<any>{
         return new Promise((resolve, reject) => {
             Logs.tryCatch(() => {
                 this.objMysql.query(`show tables from ${this.database} like '${table}'`, (err: any, rows: number) => {
-
-
-                    
-
-                    if(err) reject(err.sqlMessage)
+                    if(err) reject(err)
                     else if(rows.length >= 1) resolve(true)
                     else reject('bad table')
                 })

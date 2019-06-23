@@ -1,4 +1,6 @@
 export interface IResponseController {
-    code: number,
-    response: any
+    result: boolean,
+    http: number,
+    nbResult: number,
+    object: object
 }

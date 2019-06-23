@@ -1,6 +1,9 @@
 # Accueil 👋
 # Branch Development
 
+- 💻 [Voir Changelog](server/doc/changelog/changelog.md).
+
+
 Bienvenue dans le guide utilisateur de SimpleFrameworks for NodeJS : le framworks simple d'utilisation pour les API avec NodeJS
 
 Vous êtes au bon endroit pour que l'utilisation de JIRA dans votre quotidien devienne quelque chose de simple et intuitif. Vous trouverez ici toutes les explications concernant les projets JIRA et toutes les bonnes pratiques pour bien les utiliser.

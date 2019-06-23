@@ -7,9 +7,11 @@ export class DB_FACTORY {
         switch(env_db){
 
             case 'MySQL': 
-                const a = new DB_MYSQL()
-                return a
-        
+                const mysql = new DB_MYSQL()
+                mysql.init()
+                mysql.isConnected()
+                return mysql
+                   
             case 'PostgreSQL': 
                 return new DB_PostgreSQL()
 
@@ -18,7 +20,8 @@ export class DB_FACTORY {
 
             default: 
                 //return err
-                console.log('ERREUR')
+                const b = new DB_MYSQL()
+                return b
             break
         }        
     }

@@ -1,5 +1,5 @@
 export interface IOptions{
-    table ?: string
+    table: string
     field ?: string
     search ?: string
     content ?: string
@@ -10,7 +10,9 @@ export interface IOptions{
     id ?: string
     item ?: string
     condition ?: string
-    requestSQL ?: string
-    name ?: string
-    method ?: string
+    requestSQL ?: any
+    name: string
+    method: string
+    ip: any
+
 }
