@@ -1,6 +1,6 @@
 export interface IResponseController {
-    result: boolean,
-    http: number,
-    nbResult: number,
-    object: object
+	result: boolean;
+	http: number;
+	nbResult: number;
+	object: object;
 }

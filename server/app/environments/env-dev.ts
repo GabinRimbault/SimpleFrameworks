@@ -1,4 +1,4 @@
 export const dev = {
-    "mode": 'dev',
-    "logLevel": 3
-}
+	mode: "dev",
+	logLevel: 3,
+};

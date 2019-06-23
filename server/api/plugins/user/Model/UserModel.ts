@@ -3,16 +3,6 @@ import { IOptions } from '../../../../core/libs/interface/IOptions';
 
 export class UserModel extends MainModel{
 
-
-
-    constructor(){
-        super();
-
-        
-
-    }
-
-
     protected findAllUserModel(options: IOptions): Promise<any>{
         return new Promise((resolve, reject) => {
             super.findAllMainModel(options)

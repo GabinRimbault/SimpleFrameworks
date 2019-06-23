@@ -1,112 +1,106 @@
-const chalk = require('chalk')
-const clear = require('clear')
-const figlet = require('figlet')
+const chalk = require("chalk");
+const clear = require("clear");
+const figlet = require("figlet");
 
-
-import { Router } from './Router';
-import { Plugins } from './../core/libs/class/Plugins';
+import { Router } from "./Router";
+import { Plugins } from "./../core/libs/class/Plugins";
 
 //------------- Require for logs
-import { serverError } from './../config/error/server.error';
-import { Logs } from './libs/class/Logs';
-import { options } from './../config/config';
+import { serverError } from "./../config/error/server.error";
+import { Logs } from "./libs/class/Logs";
+import { options } from "./../config/config";
 
-export class Server{
-    
-    env: any
-    options: any
-    http: any
-    expressServer: any
-    server: any
+export class Server {
+	env: any;
+	options: any;
+	http: any;
+	expressServer: any;
+	server: any;
 
-    constructor(env: any, options: any){
-        this.env = env
-        this.options = options
-    }
+	constructor(env: any, options: any) {
+		this.env = env;
+		this.options = options;
+	}
 
-    public init(): void{
-        console.log(chalk.yellow(
-            figlet.textSync('SF', { horizontalLayout: 'full' }),
-            chalk.magenta(this.env.mode)
-        ))
-       
-        //Init Environments Variable
-        Logs.tryCatch(this.initEnvVar.bind(this), serverError.variableEnv)
-                
-        //
-        this.env.mode === 'Prod' ? 
-        Logs.tryCatch(this.loadDepProd.bind(this), serverError.loadDep) : 
-        Logs.tryCatch(this.loadDepDev.bind(this), serverError.loadDep)
-        
-        //
-        Logs.tryCatch(this.launchServer.bind(this), serverError.serverNotLaunch)        
-    }
+	public init(): void {
+		console.log(chalk.yellow(figlet.textSync("SF", { horizontalLayout: "full" }), chalk.magenta(this.env.mode)));
 
-    private initEnvVar(): void{
-        this.env.mode === 'Prod' ? 
-        /* TRUE */ process.env.NODE_ENV = 'production' : 
-        /* FALSE */ process.env.NODE_ENV = 'development'
-        
-        //Declare LogsLevel
-        process.env.SF_ENV_LOGS = this.env.logLevel
-    }
+		//Init Environments Variable
+		Logs.tryCatch(this.initEnvVar.bind(this), serverError.variableEnv);
 
-    private loadDepPorod(): void{
-        //Load Server
-        const express = require('express')
-        const bodyParser = require('body-parser')
-        const cors = require('cors')
+		//
+		this.env.mode === "prod"
+			? Logs.tryCatch(this.loadDepProd.bind(this), serverError.loadDep)
+			: Logs.tryCatch(this.loadDepDev.bind(this), serverError.loadDep);
 
-        this.http = require('http')
-        
-        this.expressServer = new express()
+		//
+		Logs.tryCatch(this.launchServer.bind(this), serverError.serverNotLaunch);
+	}
 
-        //MiddleWare
-        this.expressServer.use(bodyParser.json({type: '*/*'}))
-        this.expressServer.use(bodyParser.urlencoded({ extended: true }))
-        this.expressServer.use(cors())
+	private initEnvVar(): void {
+		this.env.mode === "prod"
+			? /* TRUE */ (process.env.NODE_ENV = "production")
+			: /* FALSE */ (process.env.NODE_ENV = "development");
 
-        console.log(chalk.green('----------------'))
-        console.log(chalk.green('All dependancies load'))
-        console.log(chalk.green('----------------'))
-    }
+		//Declare LogsLevel
+		process.env.SF_ENV_LOGS = this.env.logLevel;
+	}
 
-    private loadDepDev(): void{
-        //Load Server
-        const express = require('express')
-        const bodyParser = require('body-parser')
-        const morgan = require('morgan')('dev')
-        const cors = require('cors')
+	private loadDepProd(): void {
+		//Load Server
+		const express = require("express");
+		const bodyParser = require("body-parser");
+		const cors = require("cors");
 
-        this.http = require('http')
-        
-        this.expressServer = new express()
+		this.http = require("http");
 
-        //MiddleWare
-        this.expressServer.use(morgan)
-        this.expressServer.use(bodyParser.json({type: '*/*'}))
-        this.expressServer.use(bodyParser.urlencoded({ extended: true }))
-        this.expressServer.use(cors())
+		this.expressServer = new express();
 
-        console.log(chalk.green('----------------'))
-        console.log(chalk.green('All dependancies load'))
-        console.log(chalk.green('----------------'))
-    }
+		//MiddleWare
+		this.expressServer.use(bodyParser.json({ type: "*/*" }));
+		this.expressServer.use(bodyParser.urlencoded({ extended: true }));
+		this.expressServer.use(cors());
 
-    private launchServer(): void{
-        //Start Server
-        this.server = this.http.createServer(this.expressServer)
+		console.log(chalk.green("----------------"));
+		console.log(chalk.green("All dependancies load"));
+		console.log(chalk.green("----------------"));
+	}
 
-        //Server launching...
-        this.server.listen(this.options.port, () => {
-            console.log('----------------')
-            console.log('Server Start listen on: ', chalk.green(this.options.port))
-            console.log('Access Server: http://localhost:', chalk.green(this.options.port))
-            console.log('Version: ', chalk.green(this.options.version))
-            console.log('----------------');
-            
-            new Router(this.env, this.expressServer, Plugins.init(options.activePlugins))
-            .init()
-        })
-    }
+	private loadDepDev(): void {
+		//Load Server
+		const express = require("express");
+		const bodyParser = require("body-parser");
+		const morgan = require("morgan")("dev");
+		const cors = require("cors");
+
+		this.http = require("http");
+
+		this.expressServer = new express();
+
+		//MiddleWare
+		this.expressServer.use(morgan);
+		this.expressServer.use(bodyParser.json({ type: "*/*" }));
+		this.expressServer.use(bodyParser.urlencoded({ extended: true }));
+		this.expressServer.use(cors());
+
+		Logs.receiveSuccess(chalk.green("----------------"));
+		Logs.receiveSuccess(chalk.green("All dependancies load"));
+		Logs.receiveSuccess(chalk.green("----------------"));
+	}
+
+	private launchServer(): void {
+		//Start Server
+		this.server = this.http.createServer(this.expressServer);
+
+		//Server launching...
+		this.server.listen(this.options.port, () => {
+			console.log("----------------");
+			console.log("Server Start listen on: ", chalk.green(this.options.port));
+			console.log("Access Server: http://localhost:", chalk.green(this.options.port));
+			console.log("Version: ", chalk.green(this.options.version));
+			console.log("----------------");
+
+			new Router(this.env, this.expressServer, Plugins.init(options.activePlugins)).init();
+		});
+	}
 }
