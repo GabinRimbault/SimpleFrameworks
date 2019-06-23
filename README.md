@@ -1,7 +1,7 @@
 # Accueil 👋
 # Branch Development
 
-- 💻 [Voir Changelog](server/doc/changelog/changelog.md).
+- 💻 [Voir Changelog](server/doc/changelog/changelog).
 
 
 Bienvenue dans le guide utilisateur de SimpleFrameworks for NodeJS : le framworks simple d'utilisation pour les API avec NodeJS
