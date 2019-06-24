@@ -2,14 +2,16 @@ import { routerError } from "../config/error/router.error";
 import { Logs } from "./libs/class/Logs";
 import { Middleware } from "./libs/class/Middleware";
 const chalk = require("chalk");
+import { options } from "../config/config";
+import { IPathRouter } from "./libs/interface/IPathRouter";
 
 export class Router {
 	env: any;
 	server: any;
-	path: Array<Object>;
+	path: IPathRouter;
 	Middleware: Array<Function>;
 
-	constructor(env: any, server: any, path: Array<Object>) {
+	constructor(env: any, server: any, path: IPathRouter) {
 		this.env = env;
 		this.server = server;
 		this.path = path;
@@ -67,58 +69,64 @@ export class Router {
 		}
 	}
 
-	private loadMethodGet(path: object): any {
+	private loadMethodGet(path: IPathRouter): any {
 		//If not protected
 		if (!path.protected) {
-			Logs.receiveSuccess(chalk.green("[GET]") + " { " + path.path + " }");
-			this.server.get("/" + path.path, path.controller);
+			Logs.receiveSuccess(chalk.green("[GET]") + " { " + options.routeApi + path.path + " }");
+			this.server.get(options.routeApi + path.path, path.controller);
 		} else {
-			Logs.receiveSuccess(chalk.green("[GET]") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"));
-			this.server.get("/" + path.path, this.Middleware, path.controller);
+			Logs.receiveSuccess(
+				chalk.green("[GET]") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]")
+			);
+			this.server.get(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
 
-	private loadMethodPost(path: object): void {
+	private loadMethodPost(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			Logs.receiveSuccess(chalk.blue("[POST]") + " { " + path.path + " }");
+			Logs.receiveSuccess(chalk.blue("[POST]") + " { " + options.routeApi + path.path + " }");
 			this.server.post("/" + path.path, path.controller);
 		} else {
 			Logs.receiveSuccess(chalk.blue("[POST]") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"));
-			this.server.post("/" + path.path, path.controller);
+			this.server.post(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
 
-	private loadMethodPut(path: object): void {
+	private loadMethodPut(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			console.log(chalk.yellow("PUT") + " { " + path.path + " }");
-			this.server.put("/" + path.path, path.controller);
+			console.log(chalk.yellow("PUT") + " { " + options.routeApi + path.path + " }");
+			this.server.put(options.routeApi + path.path, path.controller);
 		} else {
-			console.log(chalk.yellow("PUT") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"));
-			this.server.put("/" + path.path, path.controller);
+			console.log(
+				chalk.yellow("PUT") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]")
+			);
+			this.server.put(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
 
-	private loadMethodDel(path: object): void {
+	private loadMethodDel(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			console.log(chalk.red("DEL") + " { " + path.path + " }");
-			this.server.delete("/" + path.path, path.controller);
+			console.log(chalk.red("DEL") + " { " + options.routeApi + path.path + " }");
+			this.server.delete(options.routeApi + path.path, path.controller);
 		} else {
-			console.log(chalk.red("DEL") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"));
-			this.server.delete("/" + path.path, path.controller);
+			console.log(chalk.red("DEL") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]"));
+			this.server.delete(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
 
-	private loadMethodPatch(path: object): void {
+	private loadMethodPatch(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			console.log(chalk.green("PATCH") + " { " + path.path + " }");
-			this.server.post("/" + path.path, path.controller);
+			console.log(chalk.green("PATCH") + " { " + options.routeApi + path.path + " }");
+			this.server.post(options.routeApi + path.path, path.controller);
 		} else {
-			console.log(chalk.green("PATCH") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"));
-			this.server.patch("/" + path.path, path.controller);
+			console.log(
+				chalk.green("PATCH") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]")
+			);
+			this.server.patch(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
 }

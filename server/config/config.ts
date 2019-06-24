@@ -3,5 +3,6 @@ export const options = {
 	port: 8081,
 	version: "0.1.0",
 	activePlugins: true,
+	activeMiddleware: true,
 	sf_salt: "sf_salt",
 };
