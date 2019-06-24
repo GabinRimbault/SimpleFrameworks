@@ -5,7 +5,7 @@ module.exports = [
 	{
 		method: "get",
 		path: "user",
-		protected: false,
+		protected: true,
 		controller: User.findAllUserController,
 	},
 	{

@@ -3,6 +3,7 @@ const clear = require("clear");
 import { dev } from "./environments/env-dev";
 import { prod } from "./environments/env-prod";
 import { options } from "../config/config";
+import { Middleware } from "../core/libs/class/Middleware";
 
 clear();
 

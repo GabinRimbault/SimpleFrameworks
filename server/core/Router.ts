@@ -1,16 +1,19 @@
 import { routerError } from "../config/error/router.error";
 import { Logs } from "./libs/class/Logs";
+import { Middleware } from "./libs/class/Middleware";
 const chalk = require("chalk");
 
 export class Router {
 	env: any;
 	server: any;
 	path: Array<Object>;
+	Middleware: Array<Function>;
 
 	constructor(env: any, server: any, path: Array<Object>) {
 		this.env = env;
 		this.server = server;
 		this.path = path;
+		this.Middleware = Middleware.loadAllMiddleware();
 	}
 
 	public init(): void {
@@ -71,7 +74,7 @@ export class Router {
 			this.server.get("/" + path.path, path.controller);
 		} else {
 			Logs.receiveSuccess(chalk.green("[GET]") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"));
-			this.server.get("/" + path.path, path.controller);
+			this.server.get("/" + path.path, this.Middleware, path.controller);
 		}
 	}
 
