@@ -6,14 +6,7 @@
 
 -------------------------------------------------------------------------------------
 
-    -> Migration de MainController et MainModel.
-    -> Ajout du premier controller du plugins User (findAllUser).
-    -> Implémentation et test via MainController - MainModel sur le plugins User.
-    -> Capture des Erreur lié a MySQL (NonConntecté - Mauvaise format de requete SQL).
-    -> Capture et affiche des success en fonction du logLevel des evenements MySQL.
-    -> Réécriture de la DB_FACTORY, elle initialise maintenant correctement la BDD.
-    -> Réécriture de quelques méthodes sur MainModel et MainController.
-    -> Ajout de méthodes sur la class Logs pour capturé certaines erreurs et success.
+    -> Nothing
     
 -------------------------------------------------------------------------------------
 
