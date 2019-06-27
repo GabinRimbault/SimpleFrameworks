@@ -11,7 +11,9 @@ export interface IOptions {
 	item?: string;
 	condition?: string;
 	requestSQL?: any;
+	request?: string;
 	name: string;
 	method: string;
 	ip: any;
+	params?: any;
 }

@@ -74,6 +74,20 @@ export class MainModel {
 		});
 	}
 
+	protected searchMainModel(options: IOptions): Promise<any> {
+		return new Promise((resolve, reject) => {
+			DB.simpleQuery(
+				`SELECT ${options.field} 
+				FROM ${options.table} 
+				WHERE LOWER(${options.request}) 
+				LIKE LOWER("%${options.content}%")`,
+				options
+			)
+				.then((res: Response) => resolve(res))
+				.catch((err: Response) => reject(err));
+		});
+	}
+
 	//Object.keys(res).length >= 1
 	protected findMainModelWithMultipleCondition(options: IOptions, paramsArray: any): Promise<any> {
 		return new Promise((resolve, reject) => {

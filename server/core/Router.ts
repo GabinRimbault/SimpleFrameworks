@@ -1,3 +1,7 @@
+/*
+	TODO Rajouter les erreurs sur les path ! rajouter les codehttp + voir a decentraliser les route afin de clarifier un peu mieux
+*/
+
 import { routerError } from "../config/error/router.error";
 import { Logs } from "./libs/class/Logs";
 import { Middleware } from "./libs/class/Middleware";
@@ -19,13 +23,13 @@ export class Router {
 	}
 
 	public init(): void {
-		this.loadPlugin();
+		this.loadPath();
 
 		//FIXME A CHANGER CE CHIFFRE DOIT ETRE PRIS DE LA CLASS PLUGINS
-		Logs.receiveSuccess("NB Plugins load : " + chalk.green(this.path.length));
+		Logs.receiveSuccess("NB Plugins load : " + chalk.green(this.path.length - 1));
 	}
 
-	private loadPlugin(): void {
+	private loadPath(): void {
 		for (let i = 0; i != this.path.length; i++) {
 			console.log("[ " + chalk.cyan(this.path[i].name.toUpperCase()) + " ]");
 
@@ -67,17 +71,37 @@ export class Router {
 			}
 			console.log("---------------------------------------");
 		}
+
+		//Path by default
+		this.server.get(options.routeApi, (req: Request, res: any) => {
+			res.status(404).json({
+				result: true,
+				type: req.method,
+				HTTP: 200,
+				nbResult: 0,
+				Response: "Welcome to Simple Frameworks for NodeJS Server",
+			});
+		});
+
+		//Error 404
+		this.server.use((req: Request, res: any) => {
+			res.status(404).json({
+				result: false,
+				type: req.method,
+				HTTP: 404,
+				nbResult: 0,
+				Response: "Check Documentation of API",
+			});
+		});
 	}
 
 	private loadMethodGet(path: IPathRouter): any {
 		//If not protected
 		if (!path.protected) {
-			Logs.receiveSuccess(chalk.green("[GET]") + " { " + options.routeApi + path.path + " }");
+			Logs.receiveSuccess(chalk.grey("[-----]") + " - " + chalk.green("[GET]") + " { " + path.path + " }");
 			this.server.get(options.routeApi + path.path, path.controller);
 		} else {
-			Logs.receiveSuccess(
-				chalk.green("[GET]") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]")
-			);
+			Logs.receiveSuccess(chalk.magenta("[GUARD]") + " - " + chalk.green("[GET]") + " { " + path.path + " }");
 			this.server.get(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
@@ -85,10 +109,10 @@ export class Router {
 	private loadMethodPost(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			Logs.receiveSuccess(chalk.blue("[POST]") + " { " + options.routeApi + path.path + " }");
+			Logs.receiveSuccess(chalk.grey("[-----]") + " - " + chalk.blue("[POST]") + " { " + path.path + " }");
 			this.server.post("/" + path.path, path.controller);
 		} else {
-			Logs.receiveSuccess(chalk.blue("[POST]") + " { " + path.path + " } - " + chalk.magenta("[GUARD]"));
+			Logs.receiveSuccess(chalk.magenta("[GUARD]") + " - " + chalk.blue("[POST]") + " { " + path.path + " }");
 			this.server.post(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
@@ -96,12 +120,10 @@ export class Router {
 	private loadMethodPut(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			console.log(chalk.yellow("PUT") + " { " + options.routeApi + path.path + " }");
+			console.log(chalk.grey("[-----]") + " - " + chalk.yellow("[PUT]") + " { " + path.path + " }");
 			this.server.put(options.routeApi + path.path, path.controller);
 		} else {
-			console.log(
-				chalk.yellow("PUT") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]")
-			);
+			console.log(chalk.magenta("[GUARD]") + " - " + chalk.yellow("[PUT]") + " { " + path.path + " }");
 			this.server.put(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
@@ -109,10 +131,10 @@ export class Router {
 	private loadMethodDel(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			console.log(chalk.red("DEL") + " { " + options.routeApi + path.path + " }");
+			console.log(chalk.grey("[-----]") + " - " + chalk.red("[DEL]") + " { " + path.path + " }");
 			this.server.delete(options.routeApi + path.path, path.controller);
 		} else {
-			console.log(chalk.red("DEL") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]"));
+			console.log(chalk.magenta("[GUARD]") + " - " + chalk.red("[DEL]") + " { " + path.path + " }");
 			this.server.delete(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
@@ -120,12 +142,10 @@ export class Router {
 	private loadMethodPatch(path: IPathRouter): void {
 		//If not protected
 		if (!path.protected) {
-			console.log(chalk.green("PATCH") + " { " + options.routeApi + path.path + " }");
+			console.log(chalk.grey("[-----]") + " - " + chalk.green("[PATCH]") + " { " + path.path + " }");
 			this.server.post(options.routeApi + path.path, path.controller);
 		} else {
-			console.log(
-				chalk.green("PATCH") + " { " + options.routeApi + path.path + " } - " + chalk.magenta("[GUARD]")
-			);
+			console.log(chalk.magenta("[GUARD]") + " - " + chalk.green("[PATCH]") + " { " + path.path + " }");
 			this.server.patch(options.routeApi + path.path, this.Middleware, path.controller);
 		}
 	}
