@@ -9,17 +9,19 @@ module.exports = [
 		protected: true,
 		controller: User.findAllUserController,
 	},
+	// Comment faire comprendre qu'il s'agit d'un search ?
 	{
 		method: "get",
 		path: "user/:request/:content",
 		protected: false,
 		controller: User.searchUserController,
 	},
+
 	{
 		method: "get",
 		path: "user/lastid",
 		protected: false,
-		controller: User.findAllUserController,
+		controller: User.lastUserIDController,
 	},
 	{
 		method: "get",

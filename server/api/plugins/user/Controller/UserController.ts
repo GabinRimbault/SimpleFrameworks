@@ -37,4 +37,33 @@ export class UserController extends UserModel {
 			.then((response: IResponseController) => MainController.response(req, res, response))
 			.catch((error: IResponseController) => MainController.response(req, res, error));
 	}
+
+	public lastUserIDController(req: Request, res: Response): void {
+		let options: IOptions = {
+			table: data.table,
+			name: "lastUserIDController",
+			method: req.method,
+			ip: ip.address(),
+			condition: false,
+		};
+
+		super
+			.lastUserIDModel(options)
+			.then((response: IResponseController) => MainController.response(req, res, response))
+			.catch((error: IResponseController) => MainController.response(req, res, error));
+	}
+
+	public countUserController(req: Request, res: Response): void {
+		let options: IOptions = {
+			table: data.table,
+			name: "countUserController",
+			method: req.method,
+			ip: ip.address(),
+		};
+
+		super
+			.countUserModel(options)
+			.then((response: IResponseController) => MainController.response(req, res, response))
+			.catch((error: IResponseController) => MainController.response(req, res, error));
+	}
 }

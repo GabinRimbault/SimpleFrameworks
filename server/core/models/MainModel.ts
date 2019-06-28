@@ -120,7 +120,7 @@ export class MainModel {
 		return new Promise((resolve, reject) => {
 			if (options.condition) {
 				DB.simpleQuery(
-					`SELECT MAX(${options.item}) 
+					`SELECT MAX(id) 
                     AS lastid FROM ${options.table} 
                     WHERE ${options.search}='${options.content}'`,
 					options
@@ -130,7 +130,7 @@ export class MainModel {
 					.catch((err: Response) => reject(err));
 			} else {
 				DB.simpleQuery(
-					`SELECT MAX(${options.item}) 
+					`SELECT MAX(id) 
                     AS lastid FROM ${options.table} `,
 					options
 				)

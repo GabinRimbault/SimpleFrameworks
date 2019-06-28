@@ -9,7 +9,7 @@ export interface IOptions {
 	where?: string;
 	id?: string;
 	item?: string;
-	condition?: string;
+	condition?: boolean;
 	requestSQL?: any;
 	request?: string;
 	name: string;

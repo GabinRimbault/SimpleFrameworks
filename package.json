@@ -9,7 +9,7 @@
 		"env:dev": "ts-node-dev --respawn --transpileOnly --debug server/app/start_server.ts -dev",
 		"env:prod": "node build/app/start_server.js -prod",
 		"build": "tsc",
-		"version": "auto-changelog --output server/doc/changelog/CHANGELOG.md",
+		"version": "auto-changelog --include-branch F-Plugins-03_User -t keepachangelog -o server/doc/changelog/CHANGELOG.md",
 		"clean": "npm ci",
 		"rmdir": "rm -rf node_modules"
 	},
