@@ -47,6 +47,13 @@ export class UserModel extends MainModel {
 	}
 
 	protected countUserModel(options: IOptions): Promise<any> {
-		return new Promise((resolve, reject) => {});
+		return new Promise((resolve, reject) => {
+			super
+				.countItemModel(options)
+				.then((res: Response) => {
+					resolve(super.sendRequest(true, http.success.requestOK, 1, res));
+				})
+				.catch((err: Response) => reject(super.sendRequest(false, http.error.badRequest, 0, err)));
+		});
 	}
 }

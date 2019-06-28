@@ -27,7 +27,7 @@ module.exports = [
 		method: "get",
 		path: "user/count",
 		protected: false,
-		controller: User.findAllUserController,
+		controller: User.countUserController,
 	},
 	{
 		method: "get",

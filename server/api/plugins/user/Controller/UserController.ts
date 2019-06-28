@@ -59,6 +59,7 @@ export class UserController extends UserModel {
 			name: "countUserController",
 			method: req.method,
 			ip: ip.address(),
+			item: "id",
 		};
 
 		super
