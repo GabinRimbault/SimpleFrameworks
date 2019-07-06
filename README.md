@@ -1,8 +1,8 @@
 # Accueil 👋
-
 # Branch F-Plugins-03_User
 
 -   💻 [Voir Changelog](server/doc/changelog/CHANGELOG).
+=======
 
 Bienvenue dans le guide utilisateur de SimpleFrameworks for NodeJS : le framworks simple d'utilisation pour les API avec NodeJS
 
