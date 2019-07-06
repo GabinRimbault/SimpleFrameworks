@@ -1,14 +1,14 @@
 # Accueil 👋
+# Branch F-Plugins-03_User
 
-# Branch F-Plugins-02_Auth
-
--   💻 [Voir Changelog](server/doc/changelog/changelog).
+-   💻 [Voir Changelog](server/doc/changelog/CHANGELOG).
+=======
 
 Bienvenue dans le guide utilisateur de SimpleFrameworks for NodeJS : le framworks simple d'utilisation pour les API avec NodeJS
 
-Vous êtes au bon endroit pour que l'utilisation de JIRA dans votre quotidien devienne quelque chose de simple et intuitif. Vous trouverez ici toutes les explications concernant les projets JIRA et toutes les bonnes pratiques pour bien les utiliser.
+Vous êtes au bon endroit pour que l'utilisation de SimpleFrameworks dans votre quotidien devienne quelque chose de simple et intuitif. Vous trouverez ici toutes les explications concernant le projet SimpleFrameworks et toutes les bonnes pratiques pour bien l'utiliser.
 
-Plusieurs documents sont disponibles en fonction de votre utilisation de JIRA.
+Plusieurs documents sont disponibles en fonction de votre utilisation de SF.
 
 ## Documents
 

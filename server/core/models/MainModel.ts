@@ -74,6 +74,20 @@ export class MainModel {
 		});
 	}
 
+	protected searchMainModel(options: IOptions): Promise<any> {
+		return new Promise((resolve, reject) => {
+			DB.simpleQuery(
+				`SELECT ${options.field} 
+				FROM ${options.table} 
+				WHERE LOWER(${options.request}) 
+				LIKE LOWER("%${options.content}%")`,
+				options
+			)
+				.then((res: Response) => resolve(res))
+				.catch((err: Response) => reject(err));
+		});
+	}
+
 	//Object.keys(res).length >= 1
 	protected findMainModelWithMultipleCondition(options: IOptions, paramsArray: any): Promise<any> {
 		return new Promise((resolve, reject) => {
@@ -106,7 +120,7 @@ export class MainModel {
 		return new Promise((resolve, reject) => {
 			if (options.condition) {
 				DB.simpleQuery(
-					`SELECT MAX(${options.item}) 
+					`SELECT MAX(id) 
                     AS lastid FROM ${options.table} 
                     WHERE ${options.search}='${options.content}'`,
 					options
@@ -116,7 +130,7 @@ export class MainModel {
 					.catch((err: Response) => reject(err));
 			} else {
 				DB.simpleQuery(
-					`SELECT MAX(${options.item}) 
+					`SELECT MAX(id) 
                     AS lastid FROM ${options.table} `,
 					options
 				)

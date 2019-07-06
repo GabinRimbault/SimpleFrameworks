@@ -3,11 +3,15 @@
 	"version": "0.1.0",
 	"private": true,
 	"description": "SimpleFrameworks is a framework for develop Api with NodeJS",
-	"main": "server/app/start_server.js",
+	"main": "build/app/start_server.js",
 	"scripts": {
+		"start": "npm run env:dev -dev",
 		"env:dev": "ts-node-dev --respawn --transpileOnly --debug server/app/start_server.ts -dev",
 		"env:prod": "node build/app/start_server.js -prod",
-		"build": "tsc"
+		"build": "tsc",
+		"version": "auto-changelog --include-branch F-Plugins-03_User -t keepachangelog -o server/doc/changelog/CHANGELOG.md",
+		"clean": "npm ci",
+		"rmdir": "rm -rf node_modules"
 	},
 	"repository": {
 		"type": "git",
@@ -32,7 +36,8 @@
 		"morgan": "^1.9.1",
 		"nodemon": "^1.19.1",
 		"ts-node-dev": "^1.0.0-pre.40",
-		"typescript": "^3.5.2"
+		"typescript": "^3.5.2",
+		"auto-changelog": "^1.13.0"
 	},
 	"keywords": [],
 	"author": "Gabin Rimbault",
